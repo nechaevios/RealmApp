@@ -48,7 +48,6 @@
 				F1C1B1D3764285911A945931 /* Pods-RealmApp.debug.xcconfig */,
 				752FC3BDA87306CB3C569462 /* Pods-RealmApp.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -81,15 +80,47 @@
 		D820ADF52711FE6000AC6938 /* RealmApp */ = {
 			isa = PBXGroup;
 			children = (
-				D820ADF62711FE6000AC6938 /* AppDelegate.swift */,
-				D820ADF82711FE6000AC6938 /* SceneDelegate.swift */,
-				D820ADFA2711FE6000AC6938 /* ViewController.swift */,
-				D820ADFC2711FE6000AC6938 /* Main.storyboard */,
-				D820ADFF2711FE6100AC6938 /* Assets.xcassets */,
-				D820AE012711FE6100AC6938 /* LaunchScreen.storyboard */,
-				D820AE042711FE6100AC6938 /* Info.plist */,
+				D820AE0B2712012200AC6938 /* App */,
+				D820AE0C2712012E00AC6938 /* ViewControllers */,
+				D820AE0D2712013A00AC6938 /* StoryBoards */,
+				D820AE0E2712014A00AC6938 /* Resources */,
 			);
 			path = RealmApp;
+			sourceTree = "<group>";
+		};
+		D820AE0B2712012200AC6938 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				D820AE042711FE6100AC6938 /* Info.plist */,
+				D820ADF62711FE6000AC6938 /* AppDelegate.swift */,
+				D820ADF82711FE6000AC6938 /* SceneDelegate.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		D820AE0C2712012E00AC6938 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				D820ADFA2711FE6000AC6938 /* ViewController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		D820AE0D2712013A00AC6938 /* StoryBoards */ = {
+			isa = PBXGroup;
+			children = (
+				D820AE012711FE6100AC6938 /* LaunchScreen.storyboard */,
+				D820ADFC2711FE6000AC6938 /* Main.storyboard */,
+			);
+			path = StoryBoards;
+			sourceTree = "<group>";
+		};
+		D820AE0E2712014A00AC6938 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				D820ADFF2711FE6100AC6938 /* Assets.xcassets */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -361,7 +392,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = RV92NSXQKZ;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = RealmApp/Info.plist;
+				INFOPLIST_FILE = RealmApp/App/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -390,7 +421,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = RV92NSXQKZ;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = RealmApp/Info.plist;
+				INFOPLIST_FILE = RealmApp/App/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
