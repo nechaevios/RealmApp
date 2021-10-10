@@ -6,7 +6,6 @@
 //
 
 import RealmSwift
-import Foundation
 
 class TasksViewController: UITableViewController {
     
