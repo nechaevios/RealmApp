@@ -36,6 +36,7 @@ class TaskListViewController: UITableViewController {
         var content = cell.defaultContentConfiguration()
         var tasksCount = "0"
         let completedTasks = taskList.tasks.filter("isComplete = false")
+        cell.accessoryType = .none
         content.text = taskList.name
         
         if !taskList.tasks.isEmpty {
