@@ -90,10 +90,11 @@
 		D820ADF52711FE6000AC6938 /* RealmApp */ = {
 			isa = PBXGroup;
 			children = (
+				D820AE0C2712012E00AC6938 /* ViewControllers */,
+				D8B2B8162713355D00118914 /* Views */,
 				D820AE182712041100AC6938 /* Services */,
 				D820AE15271203D200AC6938 /* Models */,
 				D820AE0B2712012200AC6938 /* App */,
-				D820AE0C2712012E00AC6938 /* ViewControllers */,
 				D820AE0D2712013A00AC6938 /* StoryBoards */,
 				D820AE0E2712014A00AC6938 /* Resources */,
 			);
@@ -113,7 +114,6 @@
 		D820AE0C2712012E00AC6938 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				D820AE0F2712034300AC6938 /* AlertController.swift */,
 				D820AE112712035700AC6938 /* TaskListViewController.swift */,
 				D820AE132712036A00AC6938 /* TasksViewController.swift */,
 			);
@@ -152,6 +152,14 @@
 				D820AE1B2712045200AC6938 /* StorageManager.swift */,
 			);
 			path = Services;
+			sourceTree = "<group>";
+		};
+		D8B2B8162713355D00118914 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				D820AE0F2712034300AC6938 /* AlertController.swift */,
+			);
+			name = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
