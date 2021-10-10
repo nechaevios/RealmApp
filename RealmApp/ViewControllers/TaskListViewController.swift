@@ -34,15 +34,13 @@ class TaskListViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TaskListCell", for: indexPath)
         let taskList = taskLists[indexPath.row]
         var content = cell.defaultContentConfiguration()
-        content.text = taskList.name
         var tasksCount = "0"
         let completedTasks = taskList.tasks.filter("isComplete = false")
+        content.text = taskList.name
         
         if !taskList.tasks.isEmpty {
             cell.accessoryType = completedTasks.isEmpty ? .checkmark : .none
             tasksCount = completedTasks.isEmpty ? "" : "\(completedTasks.count)"
-        } else {
-            cell.accessoryType = .none
         }
         
         content.secondaryText = tasksCount
@@ -106,13 +104,13 @@ class TaskListViewController: UITableViewController {
                 self.tableView.reloadData()
             }
         }
-    
     }
     
     extension TaskListViewController {
         
         private func showAlert(with taskList: TaskList? = nil, completion: (() -> Void)? = nil) {
-            let alert = AlertController.createAlert(withTitle: "New List", andMessage: "Please insert new value")
+            let title = taskList != nil ? "Rename Task List" : "New List"
+            let alert = AlertController.createAlert(withTitle: title, andMessage: "Please insert new value")
             
             alert.action(with: taskList) { newValue in
                 if let taskList = taskList, let completion = completion {
@@ -122,7 +120,6 @@ class TaskListViewController: UITableViewController {
                     self.save(newValue)
                 }
             }
-            
             present(alert, animated: true)
         }
         
@@ -132,6 +129,5 @@ class TaskListViewController: UITableViewController {
             let rowIndex = IndexPath(row: taskLists.index(of: taskList) ?? 0, section: 0)
             tableView.insertRows(at: [rowIndex], with: .automatic)
         }
-        
     }
     
