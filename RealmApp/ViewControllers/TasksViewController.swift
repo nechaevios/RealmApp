@@ -6,6 +6,7 @@
 //
 
 import RealmSwift
+import Foundation
 
 class TasksViewController: UITableViewController {
     
@@ -13,7 +14,7 @@ class TasksViewController: UITableViewController {
     
     private var currentTasks: Results<Task>!
     private var completedTasks: Results<Task>!
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         title = taskList.name
@@ -51,20 +52,64 @@ class TasksViewController: UITableViewController {
         return cell
     }
     
+    override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        
+        let task = indexPath.section == 0 ? currentTasks[indexPath.row] : completedTasks[indexPath.row]
+        
+        let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { _, _, _ in
+            StorageManager.shared.delete(task)
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+        }
+        
+        let editAction = UIContextualAction(style: .normal, title: "Edit") { _, _, isDone in
+            self.showAlert(for: task) {
+                tableView.reloadRows(at: [indexPath], with: .automatic)
+            }
+            isDone(true)
+        }
+        
+        let changeStatusActionTitle = indexPath.section == 0 ? "Done" : "Undone"
+        let sectionToInsert = indexPath.section == 0 ? completedTasks : currentTasks
+        let sectionIndex = indexPath.section == 0 ? 1 : 0
+        
+        let changeStatusAction = UIContextualAction(style: .normal, title: changeStatusActionTitle)
+        {_, _, isDone in
+            indexPath.section == 0 ? StorageManager.shared.done(task) : StorageManager.shared.undone(task)
+            let rowIndex = IndexPath(row: sectionToInsert?.index(of: task) ?? 0, section: sectionIndex)
+            
+            tableView.beginUpdates()
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+            tableView.insertRows(at: [rowIndex], with: .automatic)
+            tableView.endUpdates()
+            
+            isDone(true)
+        }
+        
+        editAction.backgroundColor = .orange
+        changeStatusAction.backgroundColor = #colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1)
+        
+        return UISwipeActionsConfiguration(actions: [changeStatusAction, editAction, deleteAction])
+    }
+    
     @objc private func addButtonPressed() {
         showAlert()
     }
-
 }
 
 extension TasksViewController {
     
-    private func showAlert() {
+    private func showAlert(for task: Task? = nil, completion: (() -> Void)? = nil) {
+        let title = task != nil ? "Update task" : "New Task"
+        let alert = AlertController.createAlert(withTitle: title, andMessage: "What do you want to do?")
         
-        let alert = AlertController.createAlert(withTitle: "New Task", andMessage: "What do you want to do?")
         
-        alert.action { newValue, note in
-            self.saveTask(withName: newValue, andNote: note)
+        alert.action(for: task) { newValue, note in
+            if let task = task, let completion = completion {
+                StorageManager.shared.edit(task, newName: newValue, newNote: note)
+                completion()
+            } else {
+                self.saveTask(withName: newValue, andNote: note)
+            }
         }
         
         present(alert, animated: true)
