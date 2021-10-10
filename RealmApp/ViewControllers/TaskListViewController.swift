@@ -35,7 +35,17 @@ class TaskListViewController: UITableViewController {
         let taskList = taskLists[indexPath.row]
         var content = cell.defaultContentConfiguration()
         content.text = taskList.name
-        content.secondaryText = "\(taskList.tasks.count)"
+        var tasksCount = "0"
+        let completedTasks = taskList.tasks.filter("isComplete = false")
+        
+        if !taskList.tasks.isEmpty {
+            cell.accessoryType = completedTasks.isEmpty ? .checkmark : .none
+            tasksCount = completedTasks.isEmpty ? "" : "\(completedTasks.count)"
+        } else {
+            cell.accessoryType = .none
+        }
+        
+        content.secondaryText = tasksCount
         cell.contentConfiguration = content
         return cell
     }
@@ -75,46 +85,53 @@ class TaskListViewController: UITableViewController {
         let taskList = taskLists[indexPath.row]
         tasksVC.taskList = taskList
     }
-
+    
     @IBAction func  addButtonPressed(_ sender: Any) {
         showAlert()
     }
     
     @IBAction func sortingList(_ sender: UISegmentedControl) {
-    }
-    
-    
-    
-    private func createTempData() {
-        DataManager.shared.createTempData {
-            self.tableView.reloadData()
+        switch sender.selectedSegmentIndex {
+        case 1:
+            taskLists = self.taskLists.sorted(byKeyPath: "name", ascending: true)
+        default:
+            taskLists = self.taskLists.sorted(byKeyPath: "date", ascending: true)
         }
+        tableView.reloadData()
     }
-}
-
-extension TaskListViewController {
-    
-    private func showAlert(with taskList: TaskList? = nil, completion: (() -> Void)? = nil) {
-        let alert = AlertController.createAlert(withTitle: "New List", andMessage: "Please insert new value")
         
-        alert.action(with: taskList) { newValue in
-            if let taskList = taskList, let completion = completion {
-                StorageManager.shared.edit(taskList, newValue: newValue)
-                completion()
-            } else {
-                self.save(newValue)
+        
+        private func createTempData() {
+            DataManager.shared.createTempData {
+                self.tableView.reloadData()
             }
         }
+    
+    }
+    
+    extension TaskListViewController {
         
-        present(alert, animated: true)
+        private func showAlert(with taskList: TaskList? = nil, completion: (() -> Void)? = nil) {
+            let alert = AlertController.createAlert(withTitle: "New List", andMessage: "Please insert new value")
+            
+            alert.action(with: taskList) { newValue in
+                if let taskList = taskList, let completion = completion {
+                    StorageManager.shared.edit(taskList, newValue: newValue)
+                    completion()
+                } else {
+                    self.save(newValue)
+                }
+            }
+            
+            present(alert, animated: true)
+        }
+        
+        private func save(_ taskList: String) {
+            let taskList = TaskList(value: [taskList])
+            StorageManager.shared.save(taskList)
+            let rowIndex = IndexPath(row: taskLists.index(of: taskList) ?? 0, section: 0)
+            tableView.insertRows(at: [rowIndex], with: .automatic)
+        }
+        
     }
     
-    private func save(_ taskList: String) {
-        let taskList = TaskList(value: [taskList])
-        StorageManager.shared.save(taskList)
-        let rowIndex = IndexPath(row: taskLists.index(of: taskList) ?? 0, section: 0)
-        tableView.insertRows(at: [rowIndex], with: .automatic)
-    }
-    
-}
-
