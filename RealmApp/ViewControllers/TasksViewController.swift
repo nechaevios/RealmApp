@@ -75,10 +75,7 @@ class TasksViewController: UITableViewController {
         {_, _, isDone in
             StorageManager.shared.changeStatus(task)
             let rowIndex = IndexPath(row: sectionToInsert?.index(of: task) ?? 0, section: sectionToInsertIndex)
-            
-            tableView.beginUpdates()
             tableView.moveRow(at: indexPath, to: rowIndex)
-            tableView.endUpdates()
             
             isDone(true)
         }
