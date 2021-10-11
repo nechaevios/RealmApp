@@ -90,12 +90,8 @@ class TaskListViewController: UITableViewController {
     }
     
     @IBAction func sortingList(_ sender: UISegmentedControl) {
-        switch sender.selectedSegmentIndex {
-        case 1:
-            taskLists = self.taskLists.sorted(byKeyPath: "name", ascending: true)
-        default:
-            taskLists = self.taskLists.sorted(byKeyPath: "date", ascending: true)
-        }
+        let sort = sender.selectedSegmentIndex == 1 ? "name" : "date"
+        taskLists = self.taskLists.sorted(byKeyPath: sort, ascending: true)
         tableView.reloadData()
     }
         
@@ -105,6 +101,7 @@ class TaskListViewController: UITableViewController {
                 self.tableView.reloadData()
             }
         }
+    
     }
     
     extension TaskListViewController {

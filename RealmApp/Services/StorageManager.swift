@@ -70,11 +70,16 @@ class StorageManager {
         }
     }
     
+    func changeStatus(_ task: Task) {
+        write {
+            task.isComplete.toggle()
+        }
+    }
+    
     func edit(_ task: Task, newName: String, newNote: String) {
         write {
             task.name = newName
             task.note = newNote
-            task.date = Date()
         }
     }
     

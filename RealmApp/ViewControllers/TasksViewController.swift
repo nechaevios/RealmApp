@@ -73,12 +73,11 @@ class TasksViewController: UITableViewController {
         
         let changeStatusAction = UIContextualAction(style: .normal, title: changeStatusActionTitle)
         {_, _, isDone in
-            indexPath.section == 0 ? StorageManager.shared.done(task) : StorageManager.shared.undone(task)
+            StorageManager.shared.changeStatus(task)
             let rowIndex = IndexPath(row: sectionToInsert?.index(of: task) ?? 0, section: sectionToInsertIndex)
             
             tableView.beginUpdates()
-            tableView.deleteRows(at: [indexPath], with: .automatic)
-            tableView.insertRows(at: [rowIndex], with: .automatic)
+            tableView.moveRow(at: indexPath, to: rowIndex)
             tableView.endUpdates()
             
             isDone(true)
